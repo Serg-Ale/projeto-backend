@@ -4,6 +4,7 @@
   "description": "Resolução do projeto da disciplina de Backend",
   "main": "server.js",
   "scripts": {
+    "start": "nodemon -e js server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
