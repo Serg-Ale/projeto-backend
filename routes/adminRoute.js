@@ -1,16 +1,18 @@
-const express = require('express');
-const { getAdmins, getAdmin, postAdmin, putAdmin, deleteAdmin } = require('../controllers/adminController');
-const router = express.Router()
+const express = require("express");
+const {
+  getAdmins,
+  getAdmin,
+  postAdmin,
+  putAdmin,
+  deleteAdmin,
+} = require("../controllers/adminController");
+const auth = require("../helpers/auth");
+const router = express.Router();
 
-router.get("/", getAdmins);
-router.get("/:id", getAdmin );
+router.get("/", getAdmins, auth.validaAcesso);
+router.get("/:id", getAdmin);
 router.post("/", postAdmin);
 router.put("/:id", putAdmin);
 router.delete("/:id", deleteAdmin);
 
-
-
-
-
-
-module.exports = router
+module.exports = router;
