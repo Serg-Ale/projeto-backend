@@ -10,9 +10,9 @@ const auth = require("../helpers/auth");
 const router = express.Router();
 
 router.get("/", getAdmins, auth.validaAcesso);
-router.get("/:id", getAdmin);
-router.post("/", postAdmin);
-router.put("/:id", putAdmin);
-router.delete("/:id", deleteAdmin);
+router.get("/:id", getAdmin, auth.validaAcesso);
+router.post("/", postAdmin, auth.validaAcesso);
+router.put("/:id", putAdmin, auth.validaAcesso);
+router.delete("/:id", deleteAdmin, auth.validaAcesso);
 
 module.exports = router;
