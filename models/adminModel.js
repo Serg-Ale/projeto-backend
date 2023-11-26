@@ -1,4 +1,4 @@
-const { DataTypes, Op } = require("sequelize")
+const { DataTypes } = require("sequelize")
 const sequelize = require("../helpers/database")
 
 const AdminModel = sequelize.define('Admin',
@@ -28,8 +28,8 @@ module.exports = {
     return await AdminModel.create({ nome, sobrenome })
   },
 
-  update: async function (id, nome) {
-    return await AdminModel.update({ nome }, {
+  update: async function (id, nome, sobrenome) {
+    return await AdminModel.update({ nome, sobrenome }, {
       where: { id }
     })
   },
@@ -41,5 +41,6 @@ module.exports = {
   getById: async function (id) {
     return await AdminModel.findByPk(id)
   },
+  
   Model: AdminModel
 }

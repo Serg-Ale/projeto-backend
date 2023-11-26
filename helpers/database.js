@@ -8,3 +8,6 @@ sequelize.authenticate()
   .catch(error => console.log(error))
 
 module.exports = sequelize
+
+
+// sudo docker run -d --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres

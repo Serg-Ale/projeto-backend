@@ -5,6 +5,12 @@ const app = express();
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }));
 
+const AdminRoute = require("./routes/adminRoute");
+app.use("/admin", AdminRoute);
+const installRoute = require("./controllers/install");
+app.use("/install", installRoute)
+
+
 const PORT = process.env.PORT || 3333;
 
 app.get('/', (req, res) => {
