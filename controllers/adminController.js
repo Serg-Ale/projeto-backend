@@ -2,9 +2,32 @@ const adminModel = require("../models/adminModel");
 
 module.exports = {
   getAdmins: async function (req, res, next) {
-    let admins = await adminModel.list();
-    res.json(admins);
+    const pagina = Number.parseInt(req.query.pagina);
+    const quantidade = Number.parseInt(req.query.quantidade);
+
+    let paginaAtual = 0; // valor default
+    if (!Number.isNaN(pagina) && pagina > 0) {
+      paginaAtual = pagina;
+    }
+
+    let quantidadePorPagina = 10; // valor default
+    if (!Number.isNaN(quantidade) && quantidade >= 1 && quantidade <= 10) {
+      quantidadePorPagina = quantidade;
+    }
+
+    const { count, rows: admins } = await adminModel.Model.findAndCountAll({
+      limit: quantidadePorPagina,
+      offset: paginaAtual * quantidadePorPagina,
+    });
+
+    const totalPaginas = Math.ceil(count / quantidadePorPagina);
+
+    res.send({
+      admins,
+      totalPaginas,
+    });
   },
+
   getAdmin: async function (req, res, next) {
     let admin = await adminModel.getById(req.params.id);
     if (admin) res.status(200).json({ admin });

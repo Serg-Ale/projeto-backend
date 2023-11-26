@@ -6,9 +6,9 @@ const adminModel = require("../models/adminModel");
 router.get("/", async (req, res) => {
   await sequelize.sync({ force: true });
 
-  const qtd = 1000;
+  const qtd = 50;
 
-  for (let i = 0; i < qtd; i++) {
+  for (let i = 1; i <= qtd; i++) {
     const obj = {
       usuario: `user-${i}`,
       email: `${i}@gmail.com`,
