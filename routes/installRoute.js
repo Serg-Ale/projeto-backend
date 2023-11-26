@@ -6,12 +6,17 @@ const adminModel = require("../models/adminModel");
 router.get("/", async (req, res) => {
   await sequelize.sync({ force: true });
 
-  let usuario = "admin1";
-  let email = "admin@example.com";
-  let senha = "password";
-  await adminModel.save(usuario, email, senha);
+  const qtd = 1000;
 
-  res.json({ usuario, email, senha });
+  for (let i = 0; i < qtd; i++) {
+    const obj = {
+      usuario: `user-${i}`,
+      email: `${i}@gmail.com`,
+      senha: `${i}@gmail.com`,
+    };
+    await adminModel.save(obj.usuario, obj.email, obj.senha);
+  }
+  res.json({ message: `created ${qtd} admins successfully` });
 });
 
 module.exports = router;
