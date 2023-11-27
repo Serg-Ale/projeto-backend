@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const express = require("express");
+const auth = require("../helpers/auth");
 const router = express.Router();
 
 router.post("/", (req, res) => {

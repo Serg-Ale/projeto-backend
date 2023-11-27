@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const sequelize = require("../helpers/database");
 const adminModel = require("../models/adminModel");
+const auth = require("../helpers/auth");
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   await sequelize.sync({ force: true });
 
   const qtd = 50;

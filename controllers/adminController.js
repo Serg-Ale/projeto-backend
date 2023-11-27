@@ -65,8 +65,9 @@ module.exports = {
     //Arrumar resposta
     adminModel
       .update(id, aux.usuario, aux.email, aux.senha)
-      .then((admin) => {
-        if (admin) res.status(200).json({ admin });
+      .then(async function (admin) {
+        const updated_admin = await adminModel.getById(id);
+        if (admin) res.status(200).json({ updated_admin: updated_admin });
         else res.status(500).json({ message: "Admin não encontrado" });
       })
       .catch((err) => {
@@ -75,16 +76,18 @@ module.exports = {
       });
   },
   deleteAdmin: async function (req, res, next) {
-    //Arrumar resposta
-    adminModel
-      .delete(req.params.id)
-      .then((admin) => {
-        if (admin) res.status(200).json({ admin });
-        else res.status(500).json(fail("Admin não encontrado"));
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({ message: "Falha ao excluir o admin" });
-      });
+    try {
+      const id = req.params.id;
+      const admin = await adminModel.getById(id);
+      await adminModel.delete(id);
+
+      if (!admin) {
+        return res.status(404).json({ message: "Admin not found" });
+      }
+      return res.status(200).json({ deleted_admin: admin });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Failed to delete admin" });
+    }
   },
 };
