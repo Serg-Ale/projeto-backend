@@ -4,10 +4,10 @@ const auth = require("../helpers/auth");
 const router = express.Router();
 
 router.post("/", (req, res) => {
-  let { email, senha } = req.body;
-  if (email != "" && email == senha) {
+  let { user, senha } = req.body;
+  if (user != "" && user == senha) {
     let token = jwt.sign(
-      { email },
+      { user },
       "Se a gente passar vc vai ser padrinho!!! :D",
       {
         expiresIn: "10 min",

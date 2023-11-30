@@ -4,29 +4,25 @@ title: Entity Relationship Diagram Back-end Project
 erDiagram
     Cliente {
       id int
-      nome varchar
-      sobrenome varchar
+      user varchar
       email varchar
       id_admin int
       telefone varchar
-      endereco varchar
     }
 
     Funcionario {
       id int
-      nome varchar
-      sobrenome varchar
+      user varchar
       cargo varchar
       salario decimal
       id_admin int
-      data_admissao date
     }
 
     Admin {
       id int
-      nome varchar
-      sobrenome varchar
-      privilegios varchar
+      user varchar
+      email varchar
+      senha varchar
     }
 
     Produto {
@@ -34,7 +30,7 @@ erDiagram
       nome varchar
       descricao text
       preco decimal
-      qtd int
+      quantidade int
       categoria varchar
     }
 
