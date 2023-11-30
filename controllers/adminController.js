@@ -29,7 +29,7 @@ module.exports = {
   },
 
   getAdmin: async function (req, res, next) {
-    let admin = await adminModel.getById(req.params.id);
+    let admin = await adminModel.getById(req.params.id_admin);
     if (admin) res.status(200).json({ admin });
     else
       res.status(500).json({ message: "Não foi possível localizar o admin" });
@@ -49,7 +49,7 @@ module.exports = {
       });
   },
   putAdmin: async function (req, res, next) {
-    const { id } = req.params;
+    const { id_admin } = req.params;
     const { usuario, email, senha } = req.body;
     //TO DO VALIDAR CAMPOSSS
     let aux = {};
@@ -64,9 +64,9 @@ module.exports = {
     }
     //Arrumar resposta
     adminModel
-      .update(id, aux.usuario, aux.email, aux.senha)
+      .update(id_admin, aux.usuario, aux.email, aux.senha)
       .then(async function (admin) {
-        const updated_admin = await adminModel.getById(id);
+        const updated_admin = await adminModel.getById(id_admin);
         if (admin) res.status(200).json({ updated_admin: updated_admin });
         else res.status(500).json({ message: "Admin não encontrado" });
       })
@@ -77,9 +77,9 @@ module.exports = {
   },
   deleteAdmin: async function (req, res, next) {
     try {
-      const id = req.params.id;
-      const admin = await adminModel.getById(id);
-      await adminModel.delete(id);
+      const id_admin = req.params.id_admin;
+      const admin = await adminModel.getById(id_admin);
+      await adminModel.delete(id_admin);
 
       if (!admin) {
         return res.status(404).json({ message: "Admin not found" });
