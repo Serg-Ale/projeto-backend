@@ -3,7 +3,7 @@ title: Entity Relationship Diagram Back-end Project
 ---
 erDiagram
     Cliente {
-      id int
+      id_cliente int
       user varchar
       email varchar
       senha varchar
@@ -12,7 +12,7 @@ erDiagram
     }
 
     Funcionario {
-      id int
+      id_funcionario int
       user varchar
       email varchar
       senha varchar
@@ -22,14 +22,14 @@ erDiagram
     }
 
     Admin {
-      id int
+      id_admin int
       user varchar
       email varchar
       senha varchar
     }
 
     Produto {
-      id int
+      id_produto int
       nome varchar
       descricao text
       preco decimal
@@ -38,7 +38,7 @@ erDiagram
     }
 
     Pedido {
-      id int
+      id_pedido int
       id_cliente int
       data date
       status varchar
@@ -46,7 +46,7 @@ erDiagram
     }
 
     ProdutoSelecionado {
-      id int
+      id_prod_selec int
       id_pedido int
       id_produto int
       quantidade int

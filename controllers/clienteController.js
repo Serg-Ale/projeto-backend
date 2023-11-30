@@ -7,7 +7,7 @@ module.exports = {
   },
 
   getCliente: async function (req, res, next) {
-    let cliente = await clienteModel.getById(req.params.id);
+    let cliente = await clienteModel.getById(req.params.id_cliente);
     if (cliente) res.status(200).json({ cliente });
     else
       res.status(500).json({ message: "Não foi possível localizar o cliente" });
@@ -27,7 +27,7 @@ module.exports = {
       });
   },
   putCliente: async function (req, res, next) {
-    const { id } = req.params;
+    const { id_cliente } = req.params;
     const { usuario, email, senha, telefone, id_admin } = req.body;
     //TO DO VALIDAR CAMPOSSS
     let aux = {};
@@ -44,9 +44,9 @@ module.exports = {
     }
 
     clienteModel
-      .update(id, aux.usuario, aux.email, aux.senha, aux.telefone, id_admin)
+      .update(id_cliente, aux.usuario, aux.email, aux.senha, aux.telefone, id_admin)
       .then(async function (cliente) {
-        const updated_cliente = await clienteModel.getById(id);
+        const updated_cliente = await clienteModel.getById(id_cliente);
         if (cliente) res.status(200).json({ updated_cliente });
         else res.status(500).json({ message: "Cliente não encontrado" });
       })
@@ -57,9 +57,9 @@ module.exports = {
   },
   deleteCliente: async function (req, res, next) {
     try {
-      const id = req.params.id;
-      const cliente = await clienteModel.getById(id);
-      await clienteModel.delete(id);
+      const id_cliente = req.params.id_cliente;
+      const cliente = await clienteModel.getById(id_cliente);
+      await clienteModel.delete(id_cliente);
 
       if (!cliente) {
         return res.status(404).json({ message: "Cliente not found" });

@@ -7,7 +7,7 @@ module.exports = {
   },
 
   getFuncionario: async function (req, res, next) {
-    let funcionario = await funcionarioModel.getById(req.params.id);
+    let funcionario = await funcionarioModel.getById(req.params.id_funcionario);
     if (funcionario) res.status(200).json({ funcionario });
     else
       res
@@ -31,7 +31,7 @@ module.exports = {
       });
   },
   putFuncionario: async function (req, res, next) {
-    const { id } = req.params;
+    const { id_funcionario } = req.params;
     const { usuario, email, senha, cargo, salario, id_admin } = req.body;
     //TO DO VALIDAR CAMPOSSS
     let aux = {};
@@ -50,7 +50,7 @@ module.exports = {
     //Arrumar resposta
     funcionarioModel
       .update(
-        id,
+        id_funcionario,
         aux.usuario,
         aux.email,
         aux.senha,
@@ -59,7 +59,9 @@ module.exports = {
         aux.id_admin
       )
       .then(async function (funcionario) {
-        const updated_funcionario = await funcionarioModel.getById(id);
+        const updated_funcionario = await funcionarioModel.getById(
+          id_funcionario
+        );
         if (funcionario) res.status(200).json({ updated_funcionario });
         else res.status(500).json({ message: "Funcionario não encontrado" });
       })
@@ -70,9 +72,9 @@ module.exports = {
   },
   deleteFuncionario: async function (req, res, next) {
     try {
-      const id = req.params.id;
-      const funcionario = await funcionarioModel.getById(id);
-      await funcionarioModel.delete(id);
+      const id_funcionario = req.params.id_funcionario;
+      const funcionario = await funcionarioModel.getById(id_funcionario);
+      await funcionarioModel.delete(id_funcionario);
 
       if (!funcionario) {
         return res.status(404).json({ message: "Funcionario not found" });

@@ -3,7 +3,7 @@ const sequelize = require("../helpers/database");
 const AdminModel = require("../models/adminModel");
 
 const FuncionarioModel = sequelize.define("Funcionario", {
-  id: {
+  id_funcionario: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -55,21 +55,29 @@ module.exports = {
     return funcionario;
   },
 
-  update: async function (id, usuario, email, senha, cargo, salario, id_admin) {
+  update: async function (
+    id_funcionario,
+    usuario,
+    email,
+    senha,
+    cargo,
+    salario,
+    id_admin
+  ) {
     return await FuncionarioModel.update(
       { usuario, email, senha, cargo, salario, id_admin },
       {
-        where: { id },
+        where: { id_funcionario },
       }
     );
   },
 
-  delete: async function (id) {
-    return await FuncionarioModel.destroy({ where: { id } });
+  delete: async function (id_funcionario) {
+    return await FuncionarioModel.destroy({ where: { id_funcionario } });
   },
 
-  getById: async function (id) {
-    return await FuncionarioModel.findByPk(id);
+  getById: async function (id_funcionario) {
+    return await FuncionarioModel.findByPk(id_funcionario);
   },
 
   Model: FuncionarioModel,

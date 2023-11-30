@@ -3,7 +3,7 @@ const sequelize = require("../helpers/database");
 const AdminModel = require("./adminModel");
 
 const ClienteModel = sequelize.define("Cliente", {
-  id: {
+  id_cliente: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
@@ -50,21 +50,21 @@ module.exports = {
     return cliente;
   },
 
-  update: async function (id, usuario, email, senha, telefone, id_admin) {
+  update: async function (id_cliente, usuario, email, senha, telefone, id_admin) {
     return await ClienteModel.update(
       { usuario, email, senha, telefone, id_admin },
       {
-        where: { id },
+        where: { id_cliente },
       }
     );
   },
 
-  delete: async function (id) {
-    return await ClienteModel.destroy({ where: { id } });
+  delete: async function (id_cliente) {
+    return await ClienteModel.destroy({ where: { id_cliente } });
   },
 
-  getById: async function (id) {
-    return await ClienteModel.findByPk(id);
+  getById: async function (id_cliente) {
+    return await ClienteModel.findByPk(id_cliente);
   },
 
   Model: ClienteModel,
