@@ -35,7 +35,7 @@ module.exports = {
     return await AdminModel.update(
       { usuario, email, senha },
       {
-        where: { id_admin},
+        where: { id_admin },
       }
     );
   },
