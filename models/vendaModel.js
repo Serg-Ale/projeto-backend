@@ -16,10 +16,7 @@ const VendaModel = sequelize.define("Venda", {
 });
 
 VendaModel.belongsTo(ClienteModel.Model, { foreignKey: "id_cliente" });
-ClienteModel.Model.hasMany(VendaModel, { foreignKey: "id_cliente" });
-
 VendaModel.belongsTo(FuncionarioModel.Model, { foreignKey: "id_funcionario" });
-FuncionarioModel.Model.hasMany(VendaModel, { foreignKey: "id_funcionario" });
 
 module.exports = {
   list: async function () {
@@ -44,9 +41,9 @@ module.exports = {
     return venda;
   },
 
-  update: async function (id_venda, id_funcionario, id_cliente, valor_venda) {
+  update: async function (id_venda, valor_venda, id_funcionario, id_cliente) {
     return await VendaModel.update(
-      { id_funcionario, id_cliente, valor_venda },
+      { valor_venda, id_funcionario, id_cliente },
       {
         where: { id_venda },
       }
