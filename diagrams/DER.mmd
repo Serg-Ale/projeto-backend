@@ -21,6 +21,13 @@ erDiagram
       id_admin int
     }
 
+    Venda {
+      id_venda int
+      id_funcionario int
+      id_cliente int
+      valor_venda decimal
+    }
+
     Admin {
       id_admin int
       user varchar
@@ -30,32 +37,24 @@ erDiagram
 
     Produto {
       id_produto int
-      nome varchar
-      descricao text
-      preco decimal
-      quantidade int
-      categoria varchar
+      nome varchar 
+      descricao varchar
+      qtd_estoque int
+      preco decimal 
     }
 
-    Pedido {
-      id_pedido int
-      id_cliente int
-      data date
-      status varchar
-      total decimal
-    }
 
-    ProdutoSelecionado {
-      id_prod_selec int
-      id_pedido int
+    Produtos_venda{
+      id_venda int
       id_produto int
       quantidade int
-      preco_unitario decimal
+      valor_total_produto decimal
     }
 
-    Cliente ||--o{ Pedido : "Realiza"
-    Funcionario ||--o{ Pedido : "Registra"
-    Pedido }|--o{ ProdutoSelecionado : "Contém"
-    Produto }|--o{ ProdutoSelecionado : "Contém"
     Admin ||..|{ Funcionario : "Gerencia"
     Admin ||..|{ Cliente : "Gerencia"
+    Funcionario ||..|{ Venda: "Realiza"
+    Cliente||..|{ Venda: "Compra"
+    Venda||..|{ Produtos_venda: "Possui"
+    Produto||..|{ Produtos_venda: "Está contido"
+    
