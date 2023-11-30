@@ -15,8 +15,11 @@ const VendaModel = sequelize.define("Venda", {
   },
 });
 
-// FuncionarioModel.belongsTo(AdminModel.Model, { foreignKey: "id_admin" });
-// AdminModel.Model.hasMany(FuncionarioModel, { foreignKey: "id_admin" });
+VendaModel.belongsTo(ClienteModel.Model, { foreignKey: "id_cliente" });
+ClienteModel.Model.hasMany(VendaModel, { foreignKey: "id_cliente" });
+
+VendaModel.belongsTo(FuncionarioModel.Model, { foreignKey: "id_funcionario" });
+FuncionarioModel.Model.hasMany(VendaModel, { foreignKey: "id_funcionario" });
 
 module.exports = {
   list: async function () {
@@ -24,19 +27,20 @@ module.exports = {
   },
 
   save: async function (valor_venda, id_funcionario, id_cliente) {
-    if (id_funcionario instanceof funcionarioModel.Model) {
-      id_funcionario = funcionarioModel.id_funcionario;
+    if (id_funcionario instanceof FuncionarioModel.Model) {
+      id_funcionario = id_funcionario.id_funcionario;
     }
 
     if (id_cliente instanceof ClienteModel.Model) {
-      id_cliente = ClienteModel.id_cliente;
+      id_cliente = id_cliente.id_cliente;
     }
 
     const venda = await VendaModel.create({
       id_funcionario,
       id_cliente,
-      valor_venda, // TODO pegar valor da tabela Produtos_venda
+      valor_venda,
     });
+
     return venda;
   },
 
@@ -54,7 +58,7 @@ module.exports = {
   },
 
   getById: async function (id_venda) {
-    return await VendaModel.findByPk(id_funcionario);
+    return await VendaModel.findByPk(id_venda);
   },
 
   Model: VendaModel,

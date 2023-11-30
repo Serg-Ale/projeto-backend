@@ -3,7 +3,12 @@ const clienteModel = require("../models/clienteModel");
 module.exports = {
   getClientes: async function (req, res, next) {
     let clientes = await clienteModel.list();
-    res.status(200).json({ clientes });
+
+    if (clientes) res.status(200).json({ clientes });
+    else
+      res
+        .status(500)
+        .json({ message: "Não foi possível localizar os clientes" });
   },
 
   getCliente: async function (req, res, next) {
@@ -44,7 +49,14 @@ module.exports = {
     }
 
     clienteModel
-      .update(id_cliente, aux.usuario, aux.email, aux.senha, aux.telefone, id_admin)
+      .update(
+        id_cliente,
+        aux.usuario,
+        aux.email,
+        aux.senha,
+        aux.telefone,
+        id_admin
+      )
       .then(async function (cliente) {
         const updated_cliente = await clienteModel.getById(id_cliente);
         if (cliente) res.status(200).json({ updated_cliente });
