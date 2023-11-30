@@ -9,9 +9,9 @@ const {
 const auth = require("../helpers/auth");
 const router = express.Router();
 
-router.get("/", auth, getClientes);
-router.get("/:id", auth, getCliente);
-router.post("/", auth, postCliente);
+router.get("/", getClientes);
+router.get("/:id", getCliente);
+router.post("/", postCliente);
 router.put("/:id", auth, putCliente);
 router.delete("/:id", auth, deleteCliente);
 

@@ -10,10 +10,10 @@ const {
   deleteFuncionario,
 } = require("../controllers/funcionarioController");
 
-router.get("/", getFuncionarios);
-router.get("/:id", getFuncionario);
-router.post("/", postFuncionario);
-router.put("/:id", putFuncionario);
-router.delete("/:id", deleteFuncionario);
+router.get("/",  getFuncionarios);
+router.get("/:id",  getFuncionario);
+router.post("/", auth, postFuncionario);
+router.put("/:id", auth, putFuncionario);
+router.delete("/:id", auth, deleteFuncionario);
 
 module.exports = router;
