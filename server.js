@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 const AdminRoute = require("./routes/adminRoute");
 const ClienteRoute = require("./routes/clienteRoute");
 const FuncionarioRoute = require("./routes/funcionarioRoute");
+const ProdutoRoute = require("./routes/produtoRoute")
 
 const installRoute = require("./routes/installRoute");
 const loginRoute = require("./routes/loginRoute");
@@ -15,6 +16,7 @@ const loginRoute = require("./routes/loginRoute");
 app.use("/admin", AdminRoute);
 app.use("/cliente", ClienteRoute);
 app.use("/funcionario", FuncionarioRoute);
+app.use("/produto", ProdutoRoute)
 app.use("/install", installRoute);
 app.use("/", loginRoute);
 
