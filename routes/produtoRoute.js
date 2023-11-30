@@ -11,9 +11,9 @@ const {
 } = require("../controllers/produtoController");
 
 router.get("/",  getProdutos);
-router.get("/:id",  getProduto);
+router.get("/:id_produto",  getProduto);
 router.post("/",  postProduto);
-router.put("/:id",  putProduto);
-router.delete("/:id",  deleteProduto);
+router.put("/:id_produto",  putProduto);
+router.delete("/:id_produto",  deleteProduto);
 
 module.exports = router;
