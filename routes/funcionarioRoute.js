@@ -3,14 +3,16 @@ const auth = require("../helpers/auth");
 const router = express.Router();
 
 const {
-  getFuncionarios,
   getFuncionario,
   postFuncionario,
   putFuncionario,
   deleteFuncionario,
 } = require("../controllers/funcionarioController");
+const funcionarioModel = require("../models/funcionarioModel");
+const getPaginado = require("../helpers/getPaginado");
+const pagination = require("../helpers/pagination");
 
-router.get("/", getFuncionarios);
+router.get("/", auth, pagination(funcionarioModel), getPaginado);
 router.get("/:id_funcionario", getFuncionario);
 router.post("/", auth, postFuncionario);
 router.put("/:id_funcionario", auth, putFuncionario);

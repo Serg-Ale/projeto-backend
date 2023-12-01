@@ -1,16 +1,6 @@
 const clienteModel = require("../models/clienteModel");
 
 module.exports = {
-  getClientes: async function (req, res, next) {
-    let clientes = await clienteModel.list();
-
-    if (clientes) res.status(200).json({ clientes });
-    else
-      res
-        .status(500)
-        .json({ message: "Não foi possível localizar os clientes" });
-  },
-
   getCliente: async function (req, res, next) {
     let cliente = await clienteModel.getById(req.params.id_cliente);
     if (cliente) res.status(200).json({ cliente });
@@ -19,7 +9,9 @@ module.exports = {
   },
   postCliente: async function (req, res, next) {
     const { usuario, email, senha, telefone, id_admin } = req.body;
+
     //TO DO VALIDAR CAMPOSSS
+
     clienteModel
       .save(usuario, email, senha, telefone, id_admin)
       .then((cliente) => {

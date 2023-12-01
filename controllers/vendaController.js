@@ -1,13 +1,6 @@
 const vendaModel = require("../models/vendaModel");
 
 module.exports = {
-  getVendas: async function (req, res, next) {
-    let vendas = await vendaModel.list();
-    if (vendas) res.status(200).json({ vendas });
-    else
-      res.status(500).json({ message: "Não foi possível localizar as vendas" });
-  },
-
   getVenda: async function (req, res, next) {
     const id_venda = req.params.id_venda;
     let venda = await vendaModel.getById(id_venda);
@@ -19,6 +12,8 @@ module.exports = {
   },
   postVenda: async function (req, res, next) {
     const { valor_venda, id_cliente, id_funcionario } = req.body;
+
+    //TO DO VALIDAR CAMPOSSS
 
     vendaModel
       .save(valor_venda, id_funcionario, id_cliente)
@@ -45,7 +40,7 @@ module.exports = {
         .status(500)
         .json({ message: "Nenhum atributo foi modificado" });
     }
-    
+
     vendaModel
       .update(id_venda, aux.valor_venda, aux.id_cliente, aux.id_funcionario)
       .then(async function (venda) {

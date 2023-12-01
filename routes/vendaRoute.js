@@ -7,9 +7,12 @@ const {
   deleteVenda,
 } = require("../controllers/vendaController");
 const auth = require("../helpers/auth");
+const pagination = require("../helpers/pagination");
+const vendaModel = require("../models/vendaModel");
+const getPaginado = require("../helpers/getPaginado");
 const router = express.Router();
 
-router.get("/", getVendas);
+router.get("/", pagination(vendaModel), getPaginado);
 router.get("/:id_venda", getVenda);
 router.post("/", postVenda);
 router.put("/:id_venda", putVenda);

@@ -7,9 +7,12 @@ const {
   deleteAdmin,
 } = require("../controllers/adminController");
 const auth = require("../helpers/auth");
+const pagination = require("../helpers/pagination");
+const adminModel = require("../models/adminModel");
+const getPaginado = require("../helpers/getPaginado");
 const router = express.Router();
 
-router.get("/", auth, getAdmins);
+router.get("/", auth, pagination(adminModel), getPaginado);
 router.get("/:id_admin", auth, getAdmin);
 router.post("/", auth, postAdmin);
 router.put("/:id_admin", auth, putAdmin);

@@ -1,20 +1,13 @@
 const produtoModel = require("../models/produtoModel");
 
 module.exports = {
-  getProdutos: async function (req, res, next) {
-    let produtos = await produtoModel.list();
-    res.status(200).json({ produtos });
-  },
-
   getProduto: async function (req, res, next) {
     let produto = await produtoModel.getById(req.params.id_produto);
     if (produto) res.status(200).json({ produto });
     else
-      res
-        .status(500)
-        .json({ message: "Não foi possível localizar o produto" });
+      res.status(500).json({ message: "Não foi possível localizar o produto" });
   },
-  
+
   postProduto: async function (req, res, next) {
     const { nome, descricao, qtd_estoque, preco } = req.body;
 
@@ -48,17 +41,9 @@ module.exports = {
     }
     //Arrumar resposta
     produtoModel
-      .update(
-        id_produto,
-        aux.nome,
-        aux.descricao,
-        aux.qtd_estoque,
-        aux.preco,
-      )
+      .update(id_produto, aux.nome, aux.descricao, aux.qtd_estoque, aux.preco)
       .then(async function (produto) {
-        const updated_produto = await produtoModel.getById(
-          id_produto
-        );
+        const updated_produto = await produtoModel.getById(id_produto);
         if (produto) res.status(200).json({ updated_produto });
         else res.status(500).json({ message: "Produto não encontrado" });
       })

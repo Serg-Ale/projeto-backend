@@ -1,11 +1,6 @@
 const funcionarioModel = require("../models/funcionarioModel");
 
 module.exports = {
-  getFuncionarios: async function (req, res, next) {
-    let funcionarios = await funcionarioModel.list();
-    res.status(200).json({ funcionarios });
-  },
-
   getFuncionario: async function (req, res, next) {
     let funcionario = await funcionarioModel.getById(req.params.id_funcionario);
     if (funcionario) res.status(200).json({ funcionario });
