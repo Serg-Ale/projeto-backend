@@ -17,6 +17,8 @@ const VendaModel = sequelize.define("Venda", {
 
 VendaModel.belongsTo(ClienteModel.Model, { foreignKey: "id_cliente" });
 VendaModel.belongsTo(FuncionarioModel.Model, { foreignKey: "id_funcionario" });
+ClienteModel.Model.hasMany(VendaModel, { foreignKey: "id_cliente" });
+FuncionarioModel.Model.hasMany(VendaModel, { foreignKey: "id_funcionario" });
 
 module.exports = {
   list: async function () {

@@ -53,6 +53,33 @@ async function criarUsuarios(qtd) {
   console.log(`Usuários criados com sucesso!`);
 }
 
+const verificarExistenciaClienteEFuncionario = async (
+  idCliente,
+  idFuncionario
+) => {
+  const clienteExistente = await clienteModel.getById(idCliente);
+  const funcionarioExistente = await funcionarioModel.getById(idFuncionario);
+
+  if (!clienteExistente) {
+    throw new Error(`Cliente com id ${idCliente} não encontrado.`);
+  }
+
+  if (!funcionarioExistente) {
+    throw new Error(`Funcionário com id ${idFuncionario} não encontrado.`);
+  }
+};
+
+const criarVenda = async (valorVenda, idFuncionario, idCliente) => {
+  try {
+    await verificarExistenciaClienteEFuncionario(idCliente, idFuncionario);
+
+    // Se as verificações passarem, então o cliente e o funcionário existem
+    await vendaModel.save(valorVenda, idFuncionario, idCliente);
+  } catch (error) {
+    console.error(`Erro ao criar venda: ${error.message}`);
+  }
+};
+
 router.get("/", auth, async (req, res) => {
   await sequelize.sync({ force: true });
 
@@ -125,6 +152,18 @@ router.get("/", auth, async (req, res) => {
     28,
     3.8
   );
+
+  // Exemplos de chamadas
+  await criarVenda(40.0, 1, 1);
+  await criarVenda(35.5, 1, 2);
+  await criarVenda(72.3, 2, 2);
+  await criarVenda(45.25, 1, 2); 
+  await criarVenda(33.9, 3, 6);
+  await criarVenda(48.6, 9, 4);
+  await criarVenda(67.4, 5, 1);
+  await criarVenda(30.3, 8, 4);
+  await criarVenda(20, 7, 3);
+  await criarVenda(10, 9, 3);
 
   res.json({ message: `Instalação concluída com sucesso!` });
 });
