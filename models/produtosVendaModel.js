@@ -1,67 +1,76 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../helpers/database");
 
-const VendaModel = require("./vendaModel");
-const ProdutoModel = require("./produtoModel");
+const vendaModel = require("./vendaModel");
+const produtoModel = require("./produtoModel");
 
 const ProdutosVendaModel = sequelize.define("ProdutosVenda", {
+  id_produtos_venda: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   quantidade: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  valor_total_protudo: {
-    type: DataTypes.DECIMAL,
+  valor_total_produto: {
+    type: DataTypes.FLOAT,
     allowNull: false,
   },
 });
 
-// FuncionarioModel.belongsTo(AdminModel.Model, { foreignKey: "id_admin" });
-// AdminModel.Model.hasMany(FuncionarioModel, { foreignKey: "id_admin" });
+ProdutosVendaModel.belongsTo(vendaModel.Model, { foreignKey: "id_venda" });
+vendaModel.Model.hasMany(ProdutosVendaModel, { foreignKey: "id_venda" });
+
+ProdutosVendaModel.belongsTo(produtoModel.Model, { foreignKey: "id_produto" });
+produtoModel.Model.hasMany(ProdutosVendaModel, { foreignKey: "id_produto" });
 
 module.exports = {
   list: async function () {
     return await ProdutosVendaModel.findAll();
   },
 
-  save: async function (quantidade, valor_total_protudo, id_venda, id_produto) {
-    if (id_venda instanceof VendaModel.Model) {
-      id_venda = VendaModel.id_venda;
+  save: async function (quantidade, valor_total_produto, id_venda, id_produto) {
+    if (id_venda instanceof vendaModel.Model) {
+      id_venda = vendaModel.id_venda;
     }
 
-    if (id_produto instanceof ProdutoModel.Model) {
-      id_produto = ProdutoModel.id_produto;
+    if (id_produto instanceof produtoModel.Model) {
+      id_produto = produtoModel.id_produto;
     }
 
     const produtosVenda = await ProdutosVendaModel.create({
+      quantidade,
+      valor_total_produto, // TODO pegar valor da tabela Produtos_venda
       id_venda,
       id_produto,
-      quantidade,
-      valor_total_protudo, // TODO pegar valor da tabela Produtos_venda
     });
     return produtosVenda;
   },
 
   update: async function (
-    id_venda,
-    id_produto,
+    id_produtos_venda,
     quantidade,
-    valor_total_produto
+    valor_total_produto,
+    id_venda,
+    id_produto
   ) {
-    return await VendaModel.update(
-      { id_venda, id_produto, quantidade, valor_total_produto },
+    return await ProdutosVendaModel.update(
+      { quantidade, valor_total_produto, id_venda, id_produto },
       {
-        where: { id_venda, id_produto },
+        where: { id_produtos_venda },
       }
     );
   },
 
-  delete: async function (id_venda, id_produto) {
-    return await VendaModel.destroy({ where: { id_venda, id_produto } });
+  delete: async function (id_produtos_venda) {
+    return await ProdutosVendaModel.destroy({ where: { id_produtos_venda } });
   },
 
-  getById: async function (id_venda, id_produto) {
-    return await VendaModel.findByPk(id_funcionario, id_produto);
+  getById: async function (id_produtos_venda) {
+    return await ProdutosVendaModel.findByPk(id_produtos_venda);
   },
 
-  Model: VendaModel,
+  Model: ProdutosVendaModel,
 };
