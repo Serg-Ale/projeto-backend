@@ -52,6 +52,9 @@ module.exports = {
         res.status(500).json({ message: "Falha ao alterar o produto " });
       });
   },
+  updateEstoque: async function (id_produto, qtd_estoque) {
+    produtoModel.updateQtd(id_produto, qtd_estoque);
+  },
   deleteProduto: async function (req, res, next) {
     try {
       const id_produto = req.params.id_produto;

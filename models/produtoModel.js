@@ -33,27 +33,28 @@ module.exports = {
 
   save: async function (nome, descricao, qtd_estoque, preco) {
     const produto = await ProdutoModel.create({
-        nome, 
-        descricao, 
-        qtd_estoque, 
-        preco
+      nome,
+      descricao,
+      qtd_estoque,
+      preco,
     });
 
     return produto;
   },
 
-  update: async function (
-    id_produto,
-    nome, 
-    descricao, 
-    qtd_estoque, 
-    preco
-  ) {
+  update: async function (id_produto, nome, descricao, qtd_estoque, preco) {
     return await ProdutoModel.update(
       { nome, descricao, qtd_estoque, preco },
       {
         where: { id_produto },
       }
+    );
+  },
+  
+  updateQtd: async function (id_produto, qtd_estoque) {
+    return await ProdutoModel.update(
+      { qtd_estoque },
+      { where: { id_produto } }
     );
   },
 

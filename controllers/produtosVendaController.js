@@ -1,5 +1,5 @@
 const prodVendasModel = require("../models/produtosVendaModel");
-
+const produtoController = require("../controllers/produtoController");
 const vendaModel = require("../models/vendaModel");
 const produtoModel = require("../models/produtoModel");
 
@@ -16,7 +16,20 @@ module.exports = {
     }
   },
   postProdVenda: async function (req, res, next) {
-    const { quantidade, valor_total_produto, id_venda, id_produto } = req.body;
+    const { quantidade, id_venda, id_produto } = req.body;
+    const produto = await produtoModel.getById(id_produto);
+
+    // TODO criar descontos para certas quantidades e itens
+
+    let valor_total_produto = 0;
+
+    if (produto && produto.preco !== undefined) {
+      valor_total_produto = quantidade * produto.preco;
+      produto.qtd_estoque -= quantidade;
+      produtoController.updateEstoque(id_produto, produto.qtd_estoque);
+    } else {
+      console.log("Produto ou preço não definidos");
+    }
 
     //TO DO VALIDAR CAMPOSSS
 
