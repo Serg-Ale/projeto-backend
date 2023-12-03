@@ -3,38 +3,45 @@ function validarPagina(pagina) {
   return !Number.isNaN(numeroPagina) && numeroPagina >= 1 ? numeroPagina : 1;
 }
 
-function validarQuantidade(quantidade) {
-  const numeroQuantidade = Number(quantidade);
-  return !Number.isNaN(numeroQuantidade) &&
-    numeroQuantidade >= 1 &&
-    numeroQuantidade <= 10
-    ? numeroQuantidade
-    : 10;
+function validarLimite(limite) {
+  const valoresPossiveis = [5, 10, 30];
+  const numeroLimite = Number(limite);
+
+  if (!valoresPossiveis.includes(numeroLimite)) {
+    return 0;
+  } else {
+    return valoresPossiveis.includes(numeroLimite) ? numeroLimite : 10;
+  }
 }
 
 module.exports = function paginacao(model) {
   return async (req, res, next) => {
     try {
-      const { pagina, quantidade } = req.query;
+      const { pagina, limite } = req.query;
 
-      // Validação dos parâmetros de página e quantidade
+      // Validação dos parâmetros de página e limite
       const paginaAtual = validarPagina(pagina);
-      const quantidadePorPagina = validarQuantidade(quantidade);
+      const limitePorPagina = validarLimite(limite);
+
+      if (limitePorPagina == 0) {
+        return res.status(400).json({
+          message: "Número de limite inválido. Deve ser 5, 10 ou 30",
+        });
+      }
 
       const { count, rows: results } = await model.Model.findAndCountAll({
-        limit: quantidadePorPagina,
-        offset: (paginaAtual - 1) * quantidadePorPagina,
+        limit: limitePorPagina,
+        offset: (paginaAtual - 1) * limitePorPagina,
       });
 
-      const totalPaginas = Math.ceil(count / quantidadePorPagina);
+      const totalPaginas = Math.ceil(count / limitePorPagina);
 
       const result = {
         count,
-        quantidadePorPagina,
+        limitePorPagina,
         totalPaginas,
         results,
       };
-
       res.resultadosPaginados = result;
       next();
     } catch (err) {
