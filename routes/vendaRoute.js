@@ -14,8 +14,8 @@ const router = express.Router();
 
 router.get("/", pagination(vendaModel), getPaginado);
 router.get("/:id_venda", getVenda);
-router.post("/", postVenda);
-router.put("/:id_venda", putVenda);
-router.delete("/:id_venda", deleteVenda);
+router.post("/", auth, postVenda);
+router.put("/:id_venda", auth, putVenda);
+router.delete("/:id_venda", auth, deleteVenda);
 
 module.exports = router;

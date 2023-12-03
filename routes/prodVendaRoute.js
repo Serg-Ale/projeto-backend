@@ -18,8 +18,8 @@ const {
 
 router.get("/", pagination(produtosVendaModel), getPaginado);
 router.get("/:id_produtos_venda", getProdVenda);
-router.post("/", postProdVenda);
-router.put("/:id_produtos_venda", putProdVenda);
-router.delete("/:id_produtos_venda", deleteProdVenda);
+router.post("/", auth, postProdVenda);
+router.put("/:id_produtos_venda", auth, putProdVenda);
+router.delete("/:id_produtos_venda", auth, deleteProdVenda);
 
 module.exports = router;

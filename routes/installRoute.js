@@ -7,10 +7,12 @@ const {
   criarProdutos,
   criarVenda,
 } = require("../controllers/installController");
+const adminModel = require("../models/adminModel");
 
 router.get("/", auth, async (req, res) => {
   await sequelize.sync({ force: true });
 
+  await adminModel.save("Fulano de tal", "admin@admin.com", "admin@admin.com");
   await criarUsuarios(30);
   await criarProdutos();
   await criarVenda(30);

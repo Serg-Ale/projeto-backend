@@ -13,8 +13,8 @@ const router = express.Router();
 
 router.get("/", pagination(clienteModel), getPaginado);
 router.get("/:id_cliente", getCliente);
-router.post("/", postCliente);
-router.put("/:id_cliente", auth, putCliente);
+router.post("/", auth, postCliente);
+router.put("/:id_cliente", auth, auth, putCliente);
 router.delete("/:id_cliente", auth, deleteCliente);
 
 module.exports = router;

@@ -141,19 +141,12 @@ async function verificarExistenciaClienteEFuncionario(
 module.exports = {
   criarUsuarios: async (qtd) => {
     for (let i = 1; i <= qtd; i++) {
-      const admin = {
-        usuario: `adm-${i}`,
-        email: `adm${i}@cafeteria.com`,
-        senha: `senhaAdmin${i}`,
-      };
-      await adminModel.save(admin.usuario, admin.email, admin.senha);
-
       const cliente = {
         usuario: `cliente-${i}`,
         email: `cliente${i}@gmail.com`,
         senha: `senhaCliente${i}`,
         telefone: `9 999 999${i}`,
-        id_admin: i,
+        id_admin: 1,
       };
       await clienteModel.save(
         cliente.usuario,
@@ -169,7 +162,7 @@ module.exports = {
         senha: `senhaFunc${i}`,
         cargo: `atendente`,
         salario: 2000 + i * 500,
-        id_admin: i,
+        id_admin: 1,
       };
       await funcionarioModel.save(
         funcionario.usuario,

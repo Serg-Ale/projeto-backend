@@ -12,7 +12,7 @@ const funcionarioModel = require("../models/funcionarioModel");
 const getPaginado = require("../helpers/getPaginado");
 const pagination = require("../helpers/pagination");
 
-router.get("/", auth, pagination(funcionarioModel), getPaginado);
+router.get("/", pagination(funcionarioModel), getPaginado);
 router.get("/:id_funcionario", getFuncionario);
 router.post("/", auth, postFuncionario);
 router.put("/:id_funcionario", auth, putFuncionario);
