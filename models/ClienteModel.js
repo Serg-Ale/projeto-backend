@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../helpers/database");
-const AdminModel = require("./adminModel");
+const AdminModel = require("./AdminModel");
 
 const ClienteModel = sequelize.define("Cliente", {
   id_cliente: {

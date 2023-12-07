@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../helpers/database");
-const AdminModel = require("../models/adminModel");
+const AdminModel = require("./AdminModel");
 
 const FuncionarioModel = sequelize.define("Funcionario", {
   id_funcionario: {
