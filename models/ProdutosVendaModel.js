@@ -1,22 +1,28 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../helpers/database");
 
+class ProdutosVendaModel extends Model {}
 
-const ProdutosVendaModel = sequelize.define("ProdutosVenda", {
-  id_produtos_venda: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
+ProdutosVendaModel.init(
+  {
+    id_produtos_venda: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    quantidade: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    valor_total_produto: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
   },
-  quantidade: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  valor_total_produto: {
-    type: DataTypes.FLOAT,
-    allowNull: false,
-  },
-});
+  {
+    sequelize,
+    modelName: "ProdutosVenda",
+  }
+);
 
-module.exports = ProdutosVendaModel
-
+module.exports = ProdutosVendaModel;
