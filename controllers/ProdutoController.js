@@ -1,73 +1,64 @@
-// const produtoModel = require("../models/ProdutoModel");
+const ProdutoService = require("../services/ProdutoService");
 
-// module.exports = {
-//   getProduto: async function (req, res, next) {
-//     let produto = await produtoModel.getById(req.params.id_produto);
-//     if (produto) res.status(200).json({ produto });
-//     else
-//       res.status(500).json({ message: "Não foi possível localizar o produto" });
-//   },
+const ProdutoController = {
+  async criarItem(req, res) {
+    try {
+      const { nome, descricao, qtd_estoque, preco } = req.body;
+      const novoProduto = await ProdutoService.criarItem({
+        nome,
+        descricao,
+        qtd_estoque,
+        preco,
+      });
+      res.status(201).json(novoProduto);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//   postProduto: async function (req, res, next) {
-//     const { nome, descricao, qtd_estoque, preco } = req.body;
+  async obterTodosItens(req, res) {
+    try {
+      const produtos = await ProdutoService.obterTodosItens();
+      res.status(200).json(produtos);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     //TO DO VALIDAR CAMPOSSS
+  async obterItemPorId(req, res) {
+    try {
+      const { id_produto } = req.params;
+      const produto = await ProdutoService.obterItemPorId(id_produto);
+      res.status(200).json(produto);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     produtoModel
-//       .save(nome, descricao, qtd_estoque, preco)
-//       .then((produto) => {
-//         res.status(201).json({ produto });
-//       })
-//       .catch((err) => {
-//         res
-//           .status(500)
-//           .json({ message: "Não foi possível criar o novo produto" });
-//       });
-//   },
-//   putProduto: async function (req, res, next) {
-//     const { id_produto } = req.params;
-//     const { nome, descricao, qtd_estoque, preco } = req.body;
-//     //TO DO VALIDAR CAMPOSSS
-//     let aux = {};
-//     if (nome) aux.nome = nome;
-//     if (descricao) aux.descricao = descricao;
-//     if (qtd_estoque) aux.qtd_estoque = qtd_estoque;
-//     if (preco) aux.preco = preco;
+  async atualizarItem(req, res) {
+    try {
+      const { id_produto } = req.params;
+      const { nome, descricao, qtd_estoque, preco } = req.body;
+      const novosDados = { nome, descricao, qtd_estoque, preco };
+      const produtoAtualizado = await ProdutoService.atualizarItem(
+        id_produto,
+        novosDados
+      );
+      res.status(200).json(produtoAtualizado);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     if (aux == {}) {
-//       return res
-//         .status(500)
-//         .json({ message: "Nenhum atributo foi modificado" });
-//     }
-//     //Arrumar resposta
-//     produtoModel
-//       .update(id_produto, aux.nome, aux.descricao, aux.qtd_estoque, aux.preco)
-//       .then(async function (produto) {
-//         const updated_produto = await produtoModel.getById(id_produto);
-//         if (produto) res.status(200).json({ updated_produto });
-//         else res.status(500).json({ message: "Produto não encontrado" });
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         res.status(500).json({ message: "Falha ao alterar o produto " });
-//       });
-//   },
-//   updateEstoque: async function (id_produto, qtd_estoque) {
-//     produtoModel.updateQtd(id_produto, qtd_estoque);
-//   },
-//   deleteProduto: async function (req, res, next) {
-//     try {
-//       const id_produto = req.params.id_produto;
-//       const produto = await produtoModel.getById(id_produto);
-//       await produtoModel.delete(id_produto);
+  async excluirItem(req, res) {
+    try {
+      const { id_produto } = req.params;
+      const mensagem = await ProdutoService.excluirItem(id_produto);
+      res.status(200).json({ message: mensagem });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+};
 
-//       if (!produto) {
-//         return res.status(404).json({ message: "Produto not found" });
-//       }
-//       return res.status(200).json({ deleted_produto: produto });
-//     } catch (error) {
-//       console.error(error);
-//       return res.status(500).json({ message: "Failed to delete produto" });
-//     }
-//   },
-// };
+module.exports = ProdutoController;
