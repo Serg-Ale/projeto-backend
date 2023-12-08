@@ -9,8 +9,8 @@ app.use(express.urlencoded({ extended: false }));
 // const ClienteRoute = require("./routes/ClienteRoute");
 // const FuncionarioRoute = require("./routes/FuncionarioRoute");
 const ProdutoRoute = require("./routes/ProdutoRoute");
-// const VendaRoute = require("./routes/VendaRoute");
-// const ProdVendaRoute = require("./routes/ProdVendaRoute");
+const VendaRoute = require("./routes/VendaRoute");
+const ProdVendaRoute = require("./routes/ProdutosVendaRoute");
 
 const InstallRoute = require("./routes/InstallRoute");
 // const LoginRoute = require("./routes/LoginRoute");
@@ -19,8 +19,8 @@ const InstallRoute = require("./routes/InstallRoute");
 // app.use("/cliente", ClienteRoute);
 // app.use("/funcionario", FuncionarioRoute);
 app.use("/produto", ProdutoRoute);
-// app.use("/venda", VendaRoute);
-// app.use("/produtos_venda", ProdVendaRoute);
+app.use("/venda", VendaRoute);
+app.use("/produtos_venda", ProdVendaRoute);
 
 app.use("/install", InstallRoute);
 // app.use("/", LoginRoute);

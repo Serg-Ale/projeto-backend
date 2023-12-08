@@ -1,71 +1,61 @@
-const vendaModel = require("../models/vendaModel");
+const VendaService = require("../services/VendaService");
 
-module.exports = {
-  getVenda: async function (req, res, next) {
-    const id_venda = req.params.id_venda;
-    let venda = await vendaModel.getById(id_venda);
-    if (venda) {
-      res.status(200).json({ venda });
-    } else {
-      res.status(500).json({ message: "Não foi possível localizar a venda " });
-    }
-  },
-  postVenda: async function (req, res, next) {
-    const { valor_venda, id_cliente, id_funcionario } = req.body;
-
-    //TO DO VALIDAR CAMPOSSS
-
-    vendaModel
-      .save(valor_venda, id_funcionario, id_cliente)
-      .then((venda) => {
-        res.status(201).json({ venda });
-      })
-      .catch((err) => {
-        res
-          .status(500)
-          .json({ message: "Não foi possível criar a nova venda" });
-      });
-  },
-  putVenda: async function (req, res, next) {
-    const { id_venda } = req.params;
-    const { valor_venda, id_cliente, id_funcionario } = req.body;
-
-    let aux = {};
-    if (valor_venda) aux.valor_venda = valor_venda;
-    if (id_cliente) aux.id_cliente = id_cliente;
-    if (id_funcionario) aux.id_funcionario = id_funcionario;
-
-    if (aux == {}) {
-      return res
-        .status(500)
-        .json({ message: "Nenhum atributo foi modificado" });
-    }
-
-    vendaModel
-      .update(id_venda, aux.valor_venda, aux.id_cliente, aux.id_funcionario)
-      .then(async function (venda) {
-        const updated_venda = await vendaModel.getById(id_venda);
-        if (venda) res.status(200).json({ updated_venda });
-        else res.status(500).json({ message: "Venda não encontrada" });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({ message: "Falha ao alterar a venda" });
-      });
-  },
-  deleteVenda: async function (req, res, next) {
+const VendaController = {
+  async criarItem(req, res) {
     try {
-      const id_venda = req.params.id_venda;
-      const venda = await vendaModel.getById(id_venda);
-      await vendaModel.delete(id_venda);
-
-      if (!venda) {
-        return res.status(404).json({ message: "Venda não encontrada!" });
-      }
-      return res.status(200).json({ deleted_venda: venda });
+      const { valor_venda } = req.body;
+      const novaVenda = await VendaService.criarItem({
+        valor_venda,
+      });
+      res.status(201).json(novaVenda);
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: "Falha ao deletar venda" });
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  async obterTodosItens(req, res) {
+    try {
+      const vendas = await VendaService.obterTodosItens();
+      res.status(200).json(vendas);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  async obterItemPorId(req, res) {
+    try {
+      const { id_venda } = req.params;
+      const venda = await VendaService.obterItemPorId(id_venda);
+      res.status(200).json(venda);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  async atualizarItem(req, res) {
+    try {
+      const { id_venda } = req.params;
+      const { valor_venda } = req.body;
+      const novosDados = { valor_venda };
+      const vendaAtualizada = await VendaService.atualizarItem(
+        id_venda,
+        novosDados
+      );
+      res.status(200).json(vendaAtualizada);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  async excluirItem(req, res) {
+    try {
+      const { id_venda } = req.params;
+      const mensagem = await VendaService.excluirItem(id_venda);
+      res.status(200).json({ message: mensagem });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
     }
   },
 };
+
+module.exports = VendaController;

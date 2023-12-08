@@ -1,108 +1,62 @@
-// const ProdVendasModel = require("../models/ProdutosVendaModel");
-// const ProdutoController = require("../controllers/ProdutoController");
+const ProdutosVendaService = require("../services/ProdutosVendaService");
 
+const ProdutosVendaController = {
+  async criarItem(req, res) {
+    try {
+      const { quantidade, valor_total_produto } = req.body;
+      const novosProdutosVenda = await ProdutosVendaService.criarItem({
+        quantidade,
+        valor_total_produto,
+      });
+      res.status(201).json(novosProdutosVenda);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-// const ProdutoModel = require("../models/ProdutoModel");
+  async obterTodosItens(req, res) {
+    try {
+      const produtosVenda = await ProdutosVendaService.obterTodosItens();
+      res.status(200).json(produtosVenda);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-// module.exports = {
-//   getProdVenda: async function (req, res, next) {
-//     const id_produtos_venda = req.params.id_produtos_venda;
-//     let prodVenda = await ProdVendasModel.getById(id_produtos_venda);
-//     if (prodVenda) {
-//       res.status(200).json({ produtos_venda: prodVenda });
-//     } else {
-//       res
-//         .status(500)
-//         .json({ message: "Não foi possível localizar os produtos da venda " });
-//     }
-//   },
-//   postProdVenda: async function (req, res, next) {
-//     const { quantidade, id_venda, id_produto } = req.body;
-//     const produto = await ProdutoModel.getById(id_produto);
+  async obterItemPorId(req, res) {
+    try {
+      const { id_produtos_venda } = req.params;
+      const produtosVenda = await ProdutosVendaService.obterItemPorId(id_produtos_venda);
+      res.status(200).json(produtosVenda);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     // TODO criar descontos para certas quantidades e itens
+  async atualizarItem(req, res) {
+    try {
+      const { id_produtos_venda } = req.params;
+      const { quantidade, valor_total_produto  } = req.body;
+      const novosDados = { quantidade, valor_total_produto  };
+      const produtosVendaAtualizada = await ProdutosVendaService.atualizarItem(
+        id_produtos_venda,
+        novosDados
+      );
+      res.status(200).json(produtosVendaAtualizada);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     let valor_total_produto = 0;
+  async excluirItem(req, res) {
+    try {
+      const { id_produtos_venda } = req.params;
+      const mensagem = await ProdutosVendaService.excluirItem(id_produtos_venda);
+      res.status(200).json({ message: mensagem });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+};
 
-//     if (produto && produto.preco !== undefined) {
-//       valor_total_produto = quantidade * produto.preco;
-//       produto.qtd_estoque -= quantidade;
-//       ProdutoController.updateEstoque(id_produto, produto.qtd_estoque);
-//     } else {
-//       console.log("Produto ou preço não definidos");
-//     }
-
-//     //TO DO VALIDAR CAMPOSSS
-
-//     ProdVendasModel
-//       .save(quantidade, valor_total_produto, id_venda, id_produto)
-//       .then((prodVenda) => {
-//         res.status(201).json({ produtos_venda: prodVenda });
-//       })
-//       .catch((err) => {
-//         res
-//           .status(500)
-//           .json({ message: "Não foi possível associar os produtos a venda" });
-//       });
-//   },
-//   putProdVenda: async function (req, res, next) {
-//     const { id_produtos_venda } = req.params;
-//     const { quantidade, valor_total_produto, id_venda, id_produto } = req.body;
-
-//     let aux = {};
-//     if (quantidade) aux.quantidade = quantidade;
-//     if (valor_total_produto) aux.valor_total_produto = valor_total_produto;
-//     if (id_venda) aux.id_venda = id_venda;
-//     if (id_produto) aux.id_produto = id_produto;
-
-//     if (aux == {}) {
-//       return res
-//         .status(500)
-//         .json({ message: "Nenhum atributo foi modificado" });
-//     }
-
-//     ProdVendasModel
-//       .update(
-//         id_produtos_venda,
-//         aux.quantidade,
-//         aux.valor_total_produto,
-//         aux.id_venda,
-//         aux.id_produto
-//       )
-//       .then(async function (prodVenda) {
-//         const updated_produtos_venda = await ProdVendasModel.getById(
-//           id_produtos_venda
-//         );
-//         if (prodVenda) res.status(200).json({ updated_produtos_venda });
-//         else
-//           res
-//             .status(500)
-//             .json({ message: "Produtos ou venda não encontrados" });
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         res
-//           .status(500)
-//           .json({ message: "Falha ao alterar os produtos da venda" });
-//       });
-//   },
-//   deleteProdVenda: async function (req, res, next) {
-//     try {
-//       const id_produtos_venda = req.params.id_produtos_venda;
-//       const prodVenda = await ProdVendasModel.getById(id_produtos_venda);
-//       await ProdVendasModel.delete(id_produtos_venda);
-
-//       if (!prodVenda) {
-//         return res
-//           .status(404)
-//           .json({ message: "Produtos ou venda não encontrados!" });
-//       }
-//       return res.status(200).json({ deleted_produtos_venda: prodVenda });
-//     } catch (error) {
-//       console.error(error);
-//       return res
-//         .status(500)
-//         .json({ message: "Falha ao deletar produtos da venda" });
-//     }
-//   },
-// };
+module.exports = ProdutosVendaController;
