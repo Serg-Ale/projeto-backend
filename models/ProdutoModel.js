@@ -34,4 +34,4 @@ ProdutoModel.init(
   }
 );
 
-module.exports = ProdutoModel
+module.exports = ProdutoModel;

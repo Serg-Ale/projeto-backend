@@ -1,6 +1,7 @@
 class GenericService {
-  constructor(Model) {
+  constructor(Model, idColumnName) {
     this.Model = Model;
+    this.idColumnName = idColumnName;
   }
 
   async criarItem(dadosItem) {
@@ -35,16 +36,21 @@ class GenericService {
 
   async atualizarItem(id_item, novosDados) {
     try {
+      const whereCondition = {};
+      whereCondition[this.idColumnName] = id_item;
+
       const [rowsUpdated, [itemAtualizado]] = await this.Model.update(
         novosDados,
         {
-          where: { id_item },
+          where: whereCondition,
           returning: true,
         }
       );
+
       if (rowsUpdated === 0) {
         throw new Error("Item não encontrado para atualização");
       }
+
       return itemAtualizado;
     } catch (error) {
       throw new Error(`Erro ao atualizar o item: ${error.message}`);
@@ -53,12 +59,17 @@ class GenericService {
 
   async excluirItem(id_item) {
     try {
+      const whereCondition = {};
+      whereCondition[this.idColumnName] = id_item;
+
       const quantidadeExcluida = await this.Model.destroy({
-        where: { id_item },
+        where: whereCondition,
       });
+
       if (quantidadeExcluida === 0) {
         throw new Error("Item não encontrado para exclusão");
       }
+
       return "Item excluído com sucesso";
     } catch (error) {
       throw new Error(`Erro ao excluir o item: ${error.message}`);
