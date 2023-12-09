@@ -1,3 +1,4 @@
+const AdminModel = require("../models/AdminModel");
 const AdminService = require("../services/AdminService");
 
 const AdminController = {
@@ -12,6 +13,27 @@ const AdminController = {
       res.status(201).json(novoAdmin);
     } catch (error) {
       res.status(500).json({ error: error.message });
+    }
+  },
+  async criarCliente(req, res) {
+    try {
+      const { usuario, email, senha, telefone, id_admin } = req.body; // Dados do corpo da requisição
+
+      const admin = await AdminModel.findByPk(id_admin);
+      if (!admin) {
+        return res.status(404).json({ error: "Admin não encontrado" });
+      }
+
+      const novoCliente = await admin.createCliente({
+        usuario,
+        email,
+        senha,
+        telefone,
+      });
+
+      return res.status(201).json(novoCliente);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
     }
   },
 

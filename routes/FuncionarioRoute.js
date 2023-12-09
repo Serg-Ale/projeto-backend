@@ -1,21 +1,12 @@
-// const express = require("express");
-// const auth = require("../helpers/auth");
-// const router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-// const {
-//   getFuncionario,
-//   postFuncionario,
-//   putFuncionario,
-//   deleteFuncionario,
-// } = require("../controllers/FuncionarioController");
-// const FuncionarioModel = require("../models/FuncionarioModel");
-// const getPaginado = require("../helpers/getPaginado");
-// const pagination = require("../helpers/pagination");
+const FuncionarioController = require("../controllers/FuncionarioController");
 
-// router.get("/", pagination(FuncionarioModel), getPaginado);
-// router.get("/:id_funcionario", getFuncionario);
-// router.post("/", auth, postFuncionario);
-// router.put("/:id_funcionario", auth, putFuncionario);
-// router.delete("/:id_funcionario", auth, deleteFuncionario);
+router.post("/", FuncionarioController.criarItem);
+router.get("/", FuncionarioController.obterTodosItens);
+router.get("/:id_funcionario", FuncionarioController.obterItemPorId);
+router.put("/:id_funcionario", FuncionarioController.atualizarItem);
+router.delete("/:id_funcionario", FuncionarioController.excluirItem);
 
-// module.exports = router;
+module.exports = router;

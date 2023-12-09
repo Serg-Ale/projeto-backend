@@ -26,7 +26,6 @@ ClienteModel.init(
     },
     telefone: {
       type: DataTypes.STRING,
-      timestamps: false,
       allowNull: false,
     },
   },

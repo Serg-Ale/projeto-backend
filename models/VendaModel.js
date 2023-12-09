@@ -52,19 +52,15 @@ ProdutosVendaModel.belongsTo(ProdutoModel, { foreignKey: "id_produto" });
 
 VendaModel.hasMany(ClienteModel, {
   foreignKey: "id_cliente",
-  constraints: true,
 });
 ClienteModel.belongsTo(VendaModel, {
   foreignKey: "id_cliente",
-  constraints: true,
 });
 
 VendaModel.hasMany(FuncionarioModel, {
   foreignKey: "id_funcionario",
-  constraints: true,
 });
 FuncionarioModel.belongsTo(VendaModel, {
   foreignKey: "id_funcionario",
-  constraints: true,
 });
 module.exports = VendaModel;
