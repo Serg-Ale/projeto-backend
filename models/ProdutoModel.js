@@ -30,6 +30,7 @@ ProdutoModel.init(
   },
   {
     sequelize,
+    timestamps: false,
     modelName: "Produto",
   }
 );

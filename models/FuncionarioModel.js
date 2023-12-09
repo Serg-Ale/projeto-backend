@@ -27,6 +27,7 @@ const FuncionarioModel = sequelize.define("Funcionario", {
   },
   salario: {
     type: DataTypes.FLOAT,
+    timestamps: false,
     allowNull: false,
   },
 });

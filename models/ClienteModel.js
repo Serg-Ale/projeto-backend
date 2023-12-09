@@ -23,6 +23,7 @@ const ClienteModel = sequelize.define("Cliente", {
   },
   telefone: {
     type: DataTypes.STRING,
+    timestamps: false,
     allowNull: false,
   },
 });

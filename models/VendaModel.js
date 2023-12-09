@@ -19,6 +19,7 @@ VendaModel.init(
   },
   {
     sequelize,
+    timestamps: false,
     modelName: "Venda",
   }
 );

@@ -18,6 +18,7 @@ const AdminModel = sequelize.define("Admin", {
   },
   senha: {
     type: DataTypes.STRING,
+    timestamps: false,
     allowNull: false,
   },
 });
