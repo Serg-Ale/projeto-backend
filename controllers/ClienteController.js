@@ -1,77 +1,64 @@
-// const clienteModel = require("../models/ClienteModel");
+const ClienteService = require("../services/ClienteService");
 
-// module.exports = {
-//   getCliente: async function (req, res, next) {
-//     let cliente = await clienteModel.getById(req.params.id_cliente);
-//     if (cliente) res.status(200).json({ cliente });
-//     else
-//       res.status(500).json({ message: "Não foi possível localizar o cliente" });
-//   },
-//   postCliente: async function (req, res, next) {
-//     const { usuario, email, senha, telefone, id_admin } = req.body;
+const ClienteController = {
+  async criarItem(req, res) {
+    try {
+      const { usuario, email, senha, telefone } = req.body;
+      const novoAdmin = await ClienteService.criarItem({
+        usuario,
+        email,
+        senha,
+        telefone,
+      });
+      res.status(201).json(novoAdmin);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     //TO DO VALIDAR CAMPOSSS
+  async obterTodosItens(req, res) {
+    try {
+      const clientes = await ClienteService.obterTodosItens();
+      res.status(200).json(clientes);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     clienteModel
-//       .save(usuario, email, senha, telefone, id_admin)
-//       .then((cliente) => {
-//         res.status(201).json({ cliente });
-//       })
-//       .catch((err) => {
-//         res
-//           .status(500)
-//           .json({ message: "Não foi possível criar o novo cliente" });
-//       });
-//   },
-//   putCliente: async function (req, res, next) {
-//     const { id_cliente } = req.params;
-//     const { usuario, email, senha, telefone, id_admin } = req.body;
-//     //TO DO VALIDAR CAMPOSSS
-//     let aux = {};
-//     if (usuario) aux.usuario = usuario;
-//     if (email) aux.email = email;
-//     if (senha) aux.senha = senha;
-//     if (telefone) aux.telefone = telefone;
-//     if (id_admin) aux.id_admin = id_admin;
+  async obterItemPorId(req, res) {
+    try {
+      const { id_cliente } = req.params;
+      const cliente = await ClienteService.obterItemPorId(id_cliente);
+      res.status(200).json(cliente);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     if (aux == {}) {
-//       return res
-//         .status(500)
-//         .json({ message: "Nenhum atributo foi modificado" });
-//     }
+  async atualizarItem(req, res) {
+    try {
+      const { id_cliente } = req.params;
+      const { usuario, email, senha, telefone } = req.body;
+      const novosDados = { usuario, email, senha, telefone };
+      const clienteAtualizado = await ClienteService.atualizarItem(
+        id_cliente,
+        novosDados
+      );
+      res.status(200).json(clienteAtualizado);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 
-//     clienteModel
-//       .update(
-//         id_cliente,
-//         aux.usuario,
-//         aux.email,
-//         aux.senha,
-//         aux.telefone,
-//         id_admin
-//       )
-//       .then(async function (cliente) {
-//         const updated_cliente = await clienteModel.getById(id_cliente);
-//         if (cliente) res.status(200).json({ updated_cliente });
-//         else res.status(500).json({ message: "Cliente não encontrado" });
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//         res.status(500).json({ message: "Falha ao alterar o cliente" });
-//       });
-//   },
-//   deleteCliente: async function (req, res, next) {
-//     try {
-//       const id_cliente = req.params.id_cliente;
-//       const cliente = await clienteModel.getById(id_cliente);
-//       await clienteModel.delete(id_cliente);
+  async excluirItem(req, res) {
+    try {
+      const { id_cliente } = req.params;
+      const mensagem = await ClienteService.excluirItem(id_cliente);
+      res.status(200).json({ message: mensagem });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+};
 
-//       if (!cliente) {
-//         return res.status(404).json({ message: "Cliente not found" });
-//       }
-//       return res.status(200).json({ cliente });
-//     } catch (error) {
-//       console.error(error);
-//       return res.status(500).json({ message: "Failed to delete cliente" });
-//     }
-//   },
-// };
+module.exports = ClienteController;

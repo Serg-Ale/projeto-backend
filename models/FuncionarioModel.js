@@ -1,85 +1,43 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../helpers/database");
 const AdminModel = require("./AdminModel");
 
-const FuncionarioModel = sequelize.define("Funcionario", {
-  id_funcionario: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  usuario: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  senha: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  cargo: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  salario: {
-    type: DataTypes.FLOAT,
-    timestamps: false,
-    allowNull: false,
-  },
-});
+class FuncionarioModel extends Model {}
 
-FuncionarioModel.belongsTo(AdminModel.Model, { foreignKey: "id_admin" });
-AdminModel.Model.hasMany(FuncionarioModel, { foreignKey: "id_admin" });
-
-module.exports = {
-  list: async function () {
-    return await FuncionarioModel.findAll();
+FuncionarioModel.init(
+  {
+    id_funcionario: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    usuario: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+    senha: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    cargo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    salario: {
+      type: DataTypes.FLOAT,
+      timestamps: false,
+      allowNull: false,
+    },
   },
+  { sequelize, timestamps: false, modelName: "Funcionario" }
+);
 
-  save: async function (usuario, email, senha, cargo, salario, id_admin) {
-    if (id_admin instanceof AdminModel.Model) {
-      id_admin = AdminModel.id_admin;
-    }
+FuncionarioModel.belongsTo(AdminModel, { foreignKey: "id_admin" });
+AdminModel.hasMany(FuncionarioModel, { foreignKey: "id_admin" });
 
-    const funcionario = await FuncionarioModel.create({
-      usuario,
-      email,
-      senha,
-      cargo,
-      salario,
-      id_admin,
-    });
-    return funcionario;
-  },
-
-  update: async function (
-    id_funcionario,
-    usuario,
-    email,
-    senha,
-    cargo,
-    salario,
-    id_admin
-  ) {
-    return await FuncionarioModel.update(
-      { usuario, email, senha, cargo, salario, id_admin },
-      {
-        where: { id_funcionario },
-      }
-    );
-  },
-
-  delete: async function (id_funcionario) {
-    return await FuncionarioModel.destroy({ where: { id_funcionario } });
-  },
-
-  getById: async function (id_funcionario) {
-    return await FuncionarioModel.findByPk(id_funcionario);
-  },
-
-  Model: FuncionarioModel,
-};
+module.exports = FuncionarioModel;
