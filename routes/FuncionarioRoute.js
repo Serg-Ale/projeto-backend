@@ -8,8 +8,8 @@ const FuncionarioModel = require("../models/FuncionarioModel");
 
 router.get("/", pagination(FuncionarioModel), getPaginado);
 router.get("/:id_funcionario", FuncionarioController.obterItemPorId);
-router.post("/", FuncionarioController.criarItem);
-router.put("/:id_funcionario", FuncionarioController.atualizarItem);
-router.delete("/:id_funcionario", FuncionarioController.excluirItem);
+// router.post("/", FuncionarioController.criarItem);
+// router.put("/:id_funcionario", FuncionarioController.atualizarItem);
+// router.delete("/:id_funcionario", FuncionarioController.excluirItem);
 
 module.exports = router;
