@@ -32,7 +32,7 @@ ClienteModel.init(
   { sequelize, timestamps: false, modelName: "Cliente" }
 );
 
-ClienteModel.belongsTo(AdminModel, { foreignKey: "id_admin" });
 AdminModel.hasMany(ClienteModel, { foreignKey: "id_admin" });
+ClienteModel.belongsTo(AdminModel, { foreignKey: "id_admin" });
 
 module.exports = ClienteModel;

@@ -37,7 +37,7 @@ FuncionarioModel.init(
   { sequelize, timestamps: false, modelName: "Funcionario" }
 );
 
-FuncionarioModel.belongsTo(AdminModel, { foreignKey: "id_admin" });
 AdminModel.hasMany(FuncionarioModel, { foreignKey: "id_admin" });
+FuncionarioModel.belongsTo(AdminModel, { foreignKey: "id_admin" });
 
 module.exports = FuncionarioModel;

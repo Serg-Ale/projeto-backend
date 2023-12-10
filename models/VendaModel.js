@@ -26,41 +26,10 @@ VendaModel.init(
   }
 );
 
-VendaModel.belongsToMany(ProdutoModel, {
-  through: {
-    model: ProdutosVendaModel,
-  },
-  foreignKey: "id_venda",
-  otherKey: "id_produto",
-  constraints: true,
-});
+VendaModel.belongsTo(ClienteModel, { foreignKey: "id_cliente" });
+VendaModel.belongsTo(FuncionarioModel, { foreignKey: "id_funcionario" });
 
-ProdutoModel.belongsToMany(VendaModel, {
-  through: {
-    model: ProdutosVendaModel,
-  },
-  foreignKey: "id_produto",
-  otherKey: "id_venda",
-  constraints: true,
-});
+ClienteModel.hasMany(VendaModel, { foreignKey: "id_cliente" });
+FuncionarioModel.hasMany(VendaModel, { foreignKey: "id_funcionario" });
 
-VendaModel.hasMany(ProdutosVendaModel, { foreignKey: "id_venda" });
-ProdutosVendaModel.belongsTo(VendaModel, { foreignKey: "id_venda" });
-
-ProdutoModel.hasMany(ProdutosVendaModel, { foreignKey: "id_produto" });
-ProdutosVendaModel.belongsTo(ProdutoModel, { foreignKey: "id_produto" });
-
-VendaModel.hasMany(ClienteModel, {
-  foreignKey: "id_cliente",
-});
-ClienteModel.belongsTo(VendaModel, {
-  foreignKey: "id_cliente",
-});
-
-VendaModel.hasMany(FuncionarioModel, {
-  foreignKey: "id_funcionario",
-});
-FuncionarioModel.belongsTo(VendaModel, {
-  foreignKey: "id_funcionario",
-});
 module.exports = VendaModel;

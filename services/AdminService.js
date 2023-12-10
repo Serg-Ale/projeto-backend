@@ -17,6 +17,6 @@ class AdminServiceClass extends GenericService {
   }
 }
 
-const AdminService = new AdminServiceClass(AdminModel);
+const AdminService = new AdminServiceClass(AdminModel, "id_admin");
 
 module.exports = AdminService;

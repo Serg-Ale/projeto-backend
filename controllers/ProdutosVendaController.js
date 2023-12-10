@@ -3,10 +3,13 @@ const ProdutosVendaService = require("../services/ProdutosVendaService");
 const ProdutosVendaController = {
   async criarItem(req, res) {
     try {
-      const { quantidade, valor_total_produto } = req.body;
+      const { quantidade, valor_total_produto, id_produto, id_venda } =
+        req.body;
       const novosProdutosVenda = await ProdutosVendaService.criarItem({
         quantidade,
         valor_total_produto,
+        id_produto,
+        id_venda,
       });
       res.status(201).json(novosProdutosVenda);
     } catch (error) {
@@ -26,7 +29,9 @@ const ProdutosVendaController = {
   async obterItemPorId(req, res) {
     try {
       const { id_produtos_venda } = req.params;
-      const produtosVenda = await ProdutosVendaService.obterItemPorId(id_produtos_venda);
+      const produtosVenda = await ProdutosVendaService.obterItemPorId(
+        id_produtos_venda
+      );
       res.status(200).json(produtosVenda);
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -36,8 +41,14 @@ const ProdutosVendaController = {
   async atualizarItem(req, res) {
     try {
       const { id_produtos_venda } = req.params;
-      const { quantidade, valor_total_produto  } = req.body;
-      const novosDados = { quantidade, valor_total_produto  };
+      const { quantidade, valor_total_produto, id_produto, id_venda } =
+        req.body;
+      const novosDados = {
+        quantidade,
+        valor_total_produto,
+        id_produto,
+        id_venda,
+      };
       const produtosVendaAtualizada = await ProdutosVendaService.atualizarItem(
         id_produtos_venda,
         novosDados
@@ -51,7 +62,9 @@ const ProdutosVendaController = {
   async excluirItem(req, res) {
     try {
       const { id_produtos_venda } = req.params;
-      const mensagem = await ProdutosVendaService.excluirItem(id_produtos_venda);
+      const mensagem = await ProdutosVendaService.excluirItem(
+        id_produtos_venda
+      );
       res.status(200).json({ message: mensagem });
     } catch (error) {
       res.status(500).json({ error: error.message });

@@ -3,9 +3,11 @@ const VendaService = require("../services/VendaService");
 const VendaController = {
   async criarItem(req, res) {
     try {
-      const { valor_venda } = req.body;
+      const { valor_venda, id_cliente, id_funcionario } = req.body;
       const novaVenda = await VendaService.criarItem({
         valor_venda,
+        id_cliente,
+        id_funcionario,
       });
       res.status(201).json(novaVenda);
     } catch (error) {
@@ -35,8 +37,8 @@ const VendaController = {
   async atualizarItem(req, res) {
     try {
       const { id_venda } = req.params;
-      const { valor_venda } = req.body;
-      const novosDados = { valor_venda };
+      const { valor_venda, id_cliente, id_funcionario } = req.body;
+      const novosDados = { valor_venda, id_cliente, id_funcionario };
       const vendaAtualizada = await VendaService.atualizarItem(
         id_venda,
         novosDados

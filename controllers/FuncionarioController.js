@@ -3,13 +3,14 @@ const FuncionariService = require("../services/FuncionarioService");
 const FuncionarioController = {
   async criarItem(req, res) {
     try {
-      const { usuario, email, senha, cargo, salario } = req.body;
+      const { usuario, email, senha, cargo, salario, id_admin } = req.body;
       const novoFuncionario = await FuncionariService.criarItem({
         usuario,
         email,
         senha,
         cargo,
         salario,
+        id_admin,
       });
       res.status(201).json(novoFuncionario);
     } catch (error) {
@@ -41,8 +42,8 @@ const FuncionarioController = {
   async atualizarItem(req, res) {
     try {
       const { id_funcionario } = req.params;
-      const { usuario, email, senha, cargo, salario } = req.body;
-      const novosDados = { usuario, email, senha, cargo, salario };
+      const { usuario, email, senha, cargo, salario, id_admin } = req.body;
+      const novosDados = { usuario, email, senha, cargo, salario, id_admin };
       const funcionarioAtualizado = await FuncionariService.atualizarItem(
         id_funcionario,
         novosDados

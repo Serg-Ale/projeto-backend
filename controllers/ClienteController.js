@@ -3,12 +3,13 @@ const ClienteService = require("../services/ClienteService");
 const ClienteController = {
   async criarItem(req, res) {
     try {
-      const { usuario, email, senha, telefone } = req.body;
+      const { usuario, email, senha, telefone, id_admin } = req.body;
       const novoAdmin = await ClienteService.criarItem({
         usuario,
         email,
         senha,
         telefone,
+        id_admin,
       });
       res.status(201).json(novoAdmin);
     } catch (error) {
@@ -38,8 +39,8 @@ const ClienteController = {
   async atualizarItem(req, res) {
     try {
       const { id_cliente } = req.params;
-      const { usuario, email, senha, telefone } = req.body;
-      const novosDados = { usuario, email, senha, telefone };
+      const { usuario, email, senha, telefone, id_admin } = req.body;
+      const novosDados = { usuario, email, senha, telefone, id_admin };
       const clienteAtualizado = await ClienteService.atualizarItem(
         id_cliente,
         novosDados

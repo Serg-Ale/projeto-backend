@@ -1,6 +1,9 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../helpers/database");
 
+const VendaModel = require("./VendaModel");
+const ProdutosVendaModel = require("./ProdutosVendaModel");
+
 class ProdutoModel extends Model {}
 
 ProdutoModel.init(
@@ -34,5 +37,11 @@ ProdutoModel.init(
     modelName: "Produto",
   }
 );
+
+ProdutoModel.belongsToMany(VendaModel, {
+  through: ProdutosVendaModel,
+  foreignKey: "id_produto",
+  otherKey: "id_venda",
+});
 
 module.exports = ProdutoModel;
