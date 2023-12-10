@@ -1,17 +1,31 @@
 const ProdutosVendaService = require("../services/ProdutosVendaService");
+const ProdutoModel = require("../models/ProdutoModel");
 
 const ProdutosVendaController = {
   async criarItem(req, res) {
     try {
-      const { quantidade, valor_total_produto, id_produto, id_venda } =
-        req.body;
-      const novosProdutosVenda = await ProdutosVendaService.criarItem({
-        quantidade,
-        valor_total_produto,
-        id_produto,
-        id_venda,
-      });
-      res.status(201).json(novosProdutosVenda);
+      const { quantidade, id_produto, id_venda } = req.body;
+
+      const produto = await ProdutoModel.findByPk(id_produto);
+
+      if (produto) {
+        await produto.update({
+          qtd_estoque: produto.qtd_estoque - quantidade,
+        });
+
+        const valor_total_produto = quantidade * produto.preco;
+
+        const novosProdutosVenda = await ProdutosVendaService.criarItem({
+          quantidade,
+          valor_total_produto,
+          id_produto,
+          id_venda,
+        });
+
+        res.status(201).json(novosProdutosVenda);
+      } else {
+        res.status(404).json({ error: "Produto não encontrado" });
+      }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
