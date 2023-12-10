@@ -29,7 +29,7 @@ module.exports = function paginacao(model) {
         });
       }
 
-      const { count, rows: results } = await model.Model.findAndCountAll({
+      const { count, rows: results } = await model.findAndCountAll({
         limit: limitePorPagina,
         offset: (paginaAtual - 1) * limitePorPagina,
       });

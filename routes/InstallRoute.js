@@ -1,21 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const sequelize = require("../helpers/database");
-// const auth = require("../helpers/auth");
-// const {
-//   criarUsuarios,
-//   criarProdutos,
-//   criarVenda,
-// } = require("../controllers/InstallController");
-// const adminModel = require("../models/AdminModel");
+const AdminService = require("../services/AdminService");
+const ProdutosVendaService = require("../services/ProdutosVendaService");
+const InstallController = require("../controllers/InstallController");
 
 router.get("/", async (req, res) => {
   await sequelize.sync({ force: true });
 
-//   await adminModel.save("Fulano de tal", "admin@admin.com", "admin@admin.com");
-//   await criarUsuarios(30);
-//   await criarProdutos();
-//   await criarVenda(30);
+  await AdminService.criarItem({
+    usuario: "administrador",
+    email: "administracao@email.com",
+    senha: "administrador",
+  });
+
+  await InstallController.criarProdutos();
+  await InstallController.criarUsuarios(5);
+  await InstallController.criarVendas(5);
+
 
   res.json({ message: `Instalação concluída com sucesso!` });
 });

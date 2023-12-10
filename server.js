@@ -23,7 +23,7 @@ app.use("/venda", VendaRoute);
 app.use("/produtos_venda", ProdutosVendaRoute);
 
 app.use("/install", InstallRoute);
-// app.use("/", LoginRoute);
+app.use("/", LoginRoute);
 
 const PORT = process.env.PORT || 3333;
 

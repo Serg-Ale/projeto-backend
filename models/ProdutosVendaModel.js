@@ -16,8 +16,8 @@ ProdutosVendaModel.init(
       allowNull: false,
       validate: {
         validateQuantidade(value) {
-          const schema = Joi.number().integer().min(1).required(); 
-          const { error } = schema.validate(value); 
+          const schema = Joi.number().integer().min(1).required();
+          const { error } = schema.validate(value);
           if (error) {
             throw new Error(
               'O campo "quantidade" deve ser um número inteiro maior ou igual a 1.'
@@ -31,7 +31,7 @@ ProdutosVendaModel.init(
       allowNull: false,
       validate: {
         validateValorTotalProduto(value) {
-          const schema = Joi.number().positive().required(); 
+          const schema = Joi.number().positive().required();
           const { error } = schema.validate(value);
           if (error) {
             throw new Error(

@@ -13,19 +13,6 @@ VendaModel.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    data: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      validate: {
-        validateData(value) {
-          const schema = Joi.date().required();
-          const { error } = schema.validate(value);
-          if (error) {
-            throw new Error('O campo "data" deve ser uma data válida.');
-          }
-        },
-      },
-    },
   },
   {
     sequelize,

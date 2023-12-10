@@ -17,11 +17,11 @@ AdminModel.init(
       allowNull: false,
       validate: {
         validateUsuario(value) {
-          const schema = Joi.string().min(3).max(50).required();
+          const schema = Joi.string().min(8).max(50).required();
           const { error } = schema.validate(value);
           if (error) {
             throw new Error(
-              'O campo "usuario" deve ter entre 3 e 50 caracteres.'
+              'O campo "usuario" deve ter entre 8 e 50 caracteres.'
             );
           }
         },
@@ -33,7 +33,7 @@ AdminModel.init(
       unique: true,
       validate: {
         validateEmail(value) {
-          const schema = Joi.string().email().required(); 
+          const schema = Joi.string().email().required();
           const { error } = schema.validate(value);
           if (error) {
             throw new Error('O campo "email" deve ser um e-mail válido.');
@@ -50,7 +50,7 @@ AdminModel.init(
           const schema = Joi.string().min(8).required();
           const { error } = schema.validate(value);
           if (error) {
-            throw new Error('O campo "senha" deve ter no mínimo 6 caracteres.');
+            throw new Error('O campo "senha" deve ter no mínimo 8 caracteres.');
           }
         },
       },
