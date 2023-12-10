@@ -13,7 +13,12 @@ const ProdutosVendaController = {
           qtd_estoque: produto.qtd_estoque - quantidade,
         });
 
-        const valor_total_produto = quantidade * produto.preco;
+        let valor_total_produto = quantidade * produto.preco;
+
+        // Lógica para desconto
+        if (quantidade >= 2) {
+          valor_total_produto = valor_total_produto - valor_total_produto * 0.2;
+        }
 
         const novosProdutosVenda = await ProdutosVendaService.criarItem({
           quantidade,

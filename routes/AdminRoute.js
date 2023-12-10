@@ -25,7 +25,6 @@ router.put(
   auth,
   AdminController.atualizarFuncionario
 );
-
 router.delete(
   "/delete-funcionario/:id_funcionario",
   auth,
