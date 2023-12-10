@@ -1,7 +1,6 @@
 const { DataTypes, Model } = require("sequelize");
+const Joi = require("joi");
 const sequelize = require("../helpers/database");
-const ProdutoModel = require("./ProdutoModel");
-const ProdutosVendaModel = require("./ProdutosVendaModel");
 const ClienteModel = require("./ClienteModel");
 const FuncionarioModel = require("./FuncionarioModel");
 
@@ -13,6 +12,19 @@ VendaModel.init(
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    data: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate: {
+        validateData(value) {
+          const schema = Joi.date().required();
+          const { error } = schema.validate(value);
+          if (error) {
+            throw new Error('O campo "data" deve ser uma data válida.');
+          }
+        },
+      },
     },
   },
   {
