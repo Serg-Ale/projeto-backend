@@ -15,6 +15,9 @@ const ProdutosVendaRoute = require("./routes/ProdutosVendaRoute");
 const InstallRoute = require("./routes/InstallRoute");
 const LoginRoute = require("./routes/LoginRoute");
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger_doc.json");
+
 app.use("/admin", AdminRoute);
 app.use("/cliente", ClienteRoute);
 app.use("/funcionario", FuncionarioRoute);
@@ -24,6 +27,8 @@ app.use("/produtos_venda", ProdutosVendaRoute);
 
 app.use("/install", InstallRoute);
 app.use("/", LoginRoute);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 const PORT = process.env.PORT || 3333;
 
