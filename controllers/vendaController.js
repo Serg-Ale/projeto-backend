@@ -3,13 +3,27 @@ const VendaService = require("../services/VendaService");
 const VendaController = {
   async criarItem(req, res) {
     try {
-      const { valor_venda, id_cliente, id_funcionario } = req.body;
+      const { id_funcionario, id_cliente } = req.body;
       const novaVenda = await VendaService.criarItem({
-        valor_venda,
-        id_cliente,
         id_funcionario,
+        id_cliente,
       });
       res.status(201).json(novaVenda);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
+
+  async atualizarItem(req, res) {
+    try {
+      const { id_venda } = req.params;
+      const { id_cliente, id_funcionario } = req.body;
+      const novosDados = { id_cliente, id_funcionario };
+      const vendaAtualizada = await VendaService.atualizarItem(
+        id_venda,
+        novosDados
+      );
+      res.status(200).json(vendaAtualizada);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -29,21 +43,6 @@ const VendaController = {
       const { id_venda } = req.params;
       const venda = await VendaService.obterItemPorId(id_venda);
       res.status(200).json(venda);
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-
-  async atualizarItem(req, res) {
-    try {
-      const { id_venda } = req.params;
-      const { valor_venda, id_cliente, id_funcionario } = req.body;
-      const novosDados = { valor_venda, id_cliente, id_funcionario };
-      const vendaAtualizada = await VendaService.atualizarItem(
-        id_venda,
-        novosDados
-      );
-      res.status(200).json(vendaAtualizada);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

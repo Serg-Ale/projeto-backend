@@ -14,10 +14,6 @@ VendaModel.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    valor_venda: {
-      type: DataTypes.FLOAT,
-      allowNull: false,
-    },
   },
   {
     sequelize,
